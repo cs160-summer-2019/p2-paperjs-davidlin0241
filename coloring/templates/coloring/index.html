@@ -53,21 +53,58 @@
 				history: ["#000000"], // black selected by default
 				options: [],
 				$container: $('#color-palette')
-			}
+			};
 
 			// your rectangle gradient interaction goes in this function
 			// you may also add code outside of the function (e.g., global variables)
 			function myGradientInteraction(){
-				var tool = new paper.Tool();
+        
+          var rectangle = new paper.Rectangle(260, 310, 200, 100);
+          var path = new paper.Path.Rectangle(rectangle);
+          path.fillColor = 'red';
+          //path.selected = true;
 
-				tool.onMouseDown = function (event) {
+          var tool = new paper.Tool();
+          var origin; 
+          var destination; 
+          var stops; 
+          var fillColor; 
+        
+          tool.onMouseDown = function (event) {
+            origin = event.point; 
+          }
 
+          tool.onMouseUp = function (event) {
+            stops = [cp.history[cp.history.length - 1], cp.history[cp.history.length - 2]];
+            fillColor = {
+              gradient: {
+                  stops: stops
+              },
+              origin: origin,
+              destination: event.point
+            }
+            path.fillColor = fillColor; 
+          }
 				}
-
-				tool.onMouseUp = function (event) {
-					
-				}
-			}
+         
+        
+        /*
+        var path = new Path.Rectangle({
+        topLeft: topLeft,
+        bottomRight: bottomRight,
+        // Fill the path with a gradient of three color stops
+        // that runs between the two points we defined earlier:
+        fillColor: {
+            gradient: {
+                stops: ['yellow', 'red', 'blue']
+            },
+            origin: topLeft,
+            destination: bottomRight
+        }
+        */
+        
+       
+			
 
 			// your custom interaction goes here!
 			// you may replace everything
